@@ -1,0 +1,33 @@
+body 
+{
+    background-color:#eee;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Pour centrer verticalement */
+}
+
+.bandeau {
+    background-color: #007bff; /* Couleur de fond */
+    color: #ffffff; /* Couleur du texte */
+    padding: 10px 0; /* Espacement intérieur */
+    text-align: center; /* Centrage du texte */
+    width: 100%; /* Largeur de 100% */
+    margin: 0; /* Supprimer les marges par défaut */
+}
+
+#bouton-menu {
+    /* Styles pour le bouton de menu */
+    color: white;
+    background-color: transparent;
+    border: none;
+    padding: 10px 20px;
+    text-decoration: none;
+}
+
+.utilisateur-connecte {
+    color: white;
+}

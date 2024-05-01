@@ -1,0 +1,12 @@
+{% extends 'LITRevu/base.html' %}
+{% load bootstrap4 %}
+{% block title %}Creer Ticket - LITRevu{% endblock %}
+
+{% block content %}
+    <h1>Creer Ticket</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form ticket_form %}
+        <button type="submit" class="btn btn-primary">Soumettre</button>
+    </form>
+{% endblock %}

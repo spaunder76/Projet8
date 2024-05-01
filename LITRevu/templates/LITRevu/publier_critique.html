@@ -1,0 +1,14 @@
+{% extends 'LITRevu/base.html' %}
+{% load bootstrap4 %}
+{% block title %}Publier une critique - LITRevu{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h1>Publier une critique</h1>
+        <form method="post">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <button type="submit" class="btn btn-primary">Publier</button>
+        </form>
+    </div>
+{% endblock %}

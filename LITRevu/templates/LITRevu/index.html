@@ -1,0 +1,55 @@
+{% extends 'LITRevu/base.html' %}
+
+{% block title %}Home - LITRevu{% endblock %}
+
+{% block content %}
+    <h1>Bienvenue sur LITRevu</h1>
+    <hr>
+    <h2>Vos Tickets</h2>
+    {% if tickets %}
+    <div class="row">
+        {% for ticket in tickets %}
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ ticket.title }}</h5>
+                    <p class="card-text">{{ ticket.description }}</p>
+                    <p class="card-text"><small class="text-muted">Crée by: {{ ticket.user.username }}</small></p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>Aucun ticket trouvé.</p>
+    {% endif %}
+    <hr>
+    <h2>FUtilisateurs suivis</h2>
+    <ul class="list-group">
+        {% for following_user in following_users %}
+        <li class="list-group-item">{{ following_user.username }}</li>
+        {% endfor %}
+    </ul>
+
+    <hr>
+    <h2>Tickets des utilisateurs suivis:</h2>
+    {% for followed_user in following_users %}
+        <h3>{{ followed_user.username }}</h3>
+        {% for ticket in followed_user.ticket_set.all %}
+            <!-- Afficher uniquement les billets qui n'ont pas été créés par l'utilisateur connecté -->
+            {% if ticket.user != request.user %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ ticket.title }}</h5>
+                        <p class="card-text">{{ ticket.description }}</p>
+                        <p class="card-text"><small class="text-muted">Crée par: {{ ticket.user.username }}</small></p>
+                    </div>
+                </div>
+            {% endif %}
+        {% empty %}
+            <p>Pas de ticket de cet utilisateur.</p>
+        {% endfor %}
+    {% empty %}
+        <p>Aucun ticket d'utilisateur suivi à afficher.</p>
+    {% endfor %}
+{% endblock %}

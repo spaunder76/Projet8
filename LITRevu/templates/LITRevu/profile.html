@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Profil de {{ user.username }}</h1>
+    
+    <!-- Afficher d'autres détails du profil de l'utilisateur si nécessaire -->
+
+    {% if not user.is_authenticated %}
+        <p>Connectez-vous pour suivre cet utilisateur.</p>
+    {% else %}
+        {% if not user == request.user %}
+            {% if not user in request.user.userprofile.following.all %}
+                <form action="{% url 'follow_user' user.username %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Suivre</button>
+                </form>
+            {% else %}
+                <p>Vous suivez déjà cet utilisateur.</p>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+{% endblock %}

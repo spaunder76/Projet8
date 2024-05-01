@@ -1,0 +1,12 @@
+{% extends 'LITRevu/base.html' %}
+{% load bootstrap4 %}
+{% block title %}Poster une Critique pour {{ ticket.title }} - LITRevu{% endblock %}
+
+{% block content %}
+    <h2>Poster une Critique pour {{ ticket.title }}</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button type="submit" class="btn btn-primary">Soumettre</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'LITRevu/base.html' %}
+
+{% load bootstrap4 %}
+
+{% block title %}Utilisateurs suivis{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <h1 class="mb-4 text-center">Suivre d'autres utilisateurs</h1>
+
+    <!-- Search Form -->
+    <form method="post" class="mb-4">
+        {% csrf_token %}
+            {% bootstrap_form form %}
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary">Rechercher</button>
+            </div>
+    </form>
+
+    <!-- Utilisateurs pas encore suivis -->
+    <h2 class="text-center my-4">Utilisateurs pas encore suivis</h2>
+    <ul class="list-group">
+        {% for user in users %}
+        <li class="list-group-item d-flex justify-content-between align-items-center mb-2">
+            <div>{{ user.username }}</div>
+            {% if user.id in following %}
+                <form action="{% url 'unfollow_user' user.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm">Ne plus suivre</button>
+                </form>
+            {% else %}
+                <form action="{% url 'follow_user' user.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success btn-sm">Suivre</button>
+                </form>
+            {% endif %}
+        </li>
+        {% empty %}
+            <li class="list-group-item">No users found.</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Utilisateurs que vous suivez -->
+    <h2 class="text-center my-4">Utilisateurs que vous suivez</h2>
+    <ul class="list-group">
+        {% for user in users %}
+        {% if user.id in following %}
+        <li class="list-group-item d-flex justify-content-between align-items-center mb-2">
+            {{ user.username }}
+        </li>
+            {% endif %}
+        {% empty %}
+            <li class="list-group-item">Vous ne suivez personne pour le moment.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

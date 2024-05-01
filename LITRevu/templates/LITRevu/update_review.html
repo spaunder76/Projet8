@@ -1,0 +1,12 @@
+{% extends 'LITRevu/base.html' %}
+{% load bootstrap4 %}
+{% block title %}Modifier une Review - LITRevu{% endblock %}
+
+{% block content %}
+    <h1>Modifier une Review</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button type="submit" class="btn btn-primary">Modifier une Review</button>
+    </form>
+{% endblock %}

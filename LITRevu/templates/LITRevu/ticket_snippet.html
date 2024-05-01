@@ -1,0 +1,10 @@
+<div class="card mb-3">
+    <div class="card-body">
+        <h5 class="card-title">{{ post.title }}</h5>
+        {% if post.image %}
+            <img src="{{ post.image.url }}" class="card-img-top w-25" alt="{{ post.title }}">
+        {% endif %}
+        <p class="card-text">{{ post.description }}</p>
+        <p class="card-text"><small class="text-muted">Creer par: {{ post.user.username }}</small></p>
+    </div>
+</div>

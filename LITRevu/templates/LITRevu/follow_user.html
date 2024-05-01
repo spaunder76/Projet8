@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suivre un utilisateur</title>
+</head>
+<body>
+    <h1>Suivre un utilisateur</h1>
+        <form action="{% url 'follow_user' user.username%}" method="post">
+        {% csrf_token %}
+        <label for="username">Nom d'utilisateur à suivre :</label><br>
+        <input type="text" id="username" name="username"><br><br>
+        <input type="submit" value="Suivre">
+    </form>
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+</body>
+</html>

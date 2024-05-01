@@ -1,0 +1,21 @@
+{% extends 'LITRevu/base.html' %}
+
+{% block title %}Liste Critiques - LITRevu{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h1>Liste Critiques</h1>
+        <ul class="list-group">
+            {% for critique in critiques %}
+                <li class="list-group-item">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ critique.titre }}</h5>
+                        <small class="text-muted">{{ critique.date_creation|date:"F d, Y" }}</small>
+                    </div>
+                    <p class="mb-1">{{ critique.contenu }}</p>
+                    <small class="text-muted">By: {{ critique.auteur }}</small>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

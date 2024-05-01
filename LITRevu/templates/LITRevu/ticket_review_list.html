@@ -1,0 +1,55 @@
+{% extends 'LITRevu/base.html' %}
+{% load bootstrap4 %}
+
+{% block title %}Tickets et Reviews - LITRevu{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row my-4">
+        <div class="col-md-9">
+            <h2>Tickets et Critique</h2>
+        </div>
+        <div class="col-md-3 text-right">
+            <a href="{% url 'create_ticket_review' %}" class="btn btn-primary">Creer Ticket et Critique</a>
+        </div>
+    </div>
+    <div class="row">
+        {% for item in combined_list %}
+        <div class="col-md-10 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    {% if item.type == 'Ticket' %}
+                    <h5 class="card-title">{{ item.item.title }}</h5>
+                    {% if item.item.image %}
+                    <img src="{{ item.item.image.url }}" class="card-img-top w-25" alt="{{ item.item.title }}">
+                    {% endif %}
+                    <p class="card-text">{{ item.item.description }}</p>
+                    <p class="card-text"><small class="text-muted">Creer par: {{ item.item.user.username }}</small></p>
+                    {% if item.item.user_reviewed %}
+                    <div class="alert alert-info" role="alert">
+                        <strong>Déjà examiné:</strong> Vous avez déjà examiné ce ticket.
+                    </div>
+                    {% else %}
+                        <a href="{% url 'post_review' ticket_id=item.item.id %}" class="btn btn-primary">Ajouter une Critique</a>
+                    {% endif %}
+                    {% elif item.type == 'Review' %}
+                    <h5 class="card-title">Critique pour Ticket: {{ item.item.ticket.title }}</h5>
+                    <p class="card-text">Entete: {{ item.item.headline }}</p>
+                    <p class="card-text">Note: {{ item.item.rating }}</p>
+                    <p class="card-text">Crée sur: {{ item.item.time_created }}</p>
+                    <p class="card-text">Crée par: {{ item.item.user.username }}</p>
+                    {% if item.item.user == request.user %}
+                    <a href="{% url 'update_review' pk=item.item.pk %}" class="btn btn-primary">Modifier</a>
+                    {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% if forloop.counter|divisibleby:3 and not forloop.last %}
+    </div>
+    <div class="row">
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

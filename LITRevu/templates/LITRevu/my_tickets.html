@@ -1,0 +1,71 @@
+{% extends 'LITRevu/base.html' %}
+{% load bootstrap4 %}
+
+{% block title %}Mes Tickets - LITRevu{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row my-4">
+        <div class="col-md-9">
+            <h2>Mes Tickets</h2>
+        </div>
+        <div class="col-md-3 text-right">
+            <a href="{% url 'create_ticket' %}" class="btn btn-primary">Creer Ticket</a>
+        </div>
+    </div>
+    {% if ticket_reviews %}
+    {% for ticket, reviews in ticket_reviews.items %}
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">{{ ticket.title }}</h5>
+            {% if ticket.image %}
+            <img src="{{ ticket.image.url }}" class="card-img-top mb-3 w-25" alt="{{ ticket.title }}">
+            {% endif %}
+            <p class="card-text">{{ ticket.description }}</p>
+            <p class="card-text"><small class="text-muted">Creer par: {{ ticket.user.username }}</small></p>
+            <hr>
+            <h6 class="card-subtitle mb-2 text-muted">Critiques:</h6>
+            {% if reviews %}
+                {% for review in reviews %}
+                <div class="mb-3">
+                    <p class="mb-1"><strong>{{ review.headline }}</strong></p>
+                    <p class="mb-1">Rating: {{ review.rating }}/5</p>
+                    <p class="mb-1">Created by: {{ review.user.username }}</p>
+                </div>
+                {% endfor %}
+            {% else %}
+            <p>Pas de critiques pour le moment.</p>
+            {% endif %}
+            <hr>
+            <div class="text-right">
+                <a href="{% url 'update_ticket' ticket_id=ticket.id %}" class="btn btn-primary mr-2">Modifier</a>
+                <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ ticket.id }}">Supprimer</button>
+            </div>
+        </div>
+    </div>
+    <!-- SUpprimer le  Model -->
+    <div class="modal fade" id="deleteModal{{ ticket.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel{{ ticket.id }}" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel{{ ticket.id }}">Confirmer la suppression</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Êtes vous sûr de vouloir supprimmer ce ticket ? 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    <a href="{% url 'delete_ticket' ticket_id=ticket.id %}" class="btn btn-danger">Supprimmer</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>Pas de tickets disponibles.</p>
+    {% endif %}
+</div>
+{% endblock %}
