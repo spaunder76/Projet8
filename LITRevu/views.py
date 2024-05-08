@@ -15,7 +15,7 @@ from itertools import chain
 
 @login_required
 def index(request):
-    context = {"message": "Hello world!"}
+    context = {}
     if request.user.is_authenticated:
         ticket_form = TicketForm()
         context['ticket_form'] = ticket_form
@@ -51,7 +51,7 @@ def registration(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            # After registration, you can choose where to redirect the user
+            
             return redirect('ticket_review_list')
     else:
         form = UserCreationForm()
